@@ -13,7 +13,7 @@ int _printf(const char *format, ...)
 	char *buf;
 	int len;
 
-	buf = malloc(1024 * sizeof(char));
+	buf = calloc(1048,  sizeof(char));
 	if (!buf)
 		return (-1);
 

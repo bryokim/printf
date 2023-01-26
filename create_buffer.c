@@ -14,7 +14,7 @@
 void create_buffer(const char *format, char *buf, va_list ap)
 {
 	int i, j;
-	char s[21] = {0};
+	char s[1024] = {0};
 
 	for (i = j = 0; format[i] != '\0'; i++)
 	{
@@ -31,7 +31,7 @@ void create_buffer(const char *format, char *buf, va_list ap)
 		else if (check(format[i]) == 2)
 			copy_int(format[i], format[i + 1], va_arg(ap, int), &i, s, buf, ap);
 		else if (check(format[i]) == 3)
-			copy_uint(va_arg(ap, unsigned int), s);
+			copy_uint(format[i], va_arg(ap, unsigned int), s);
 		else
 			exit(1);
 		_append(buf, s, &j);
