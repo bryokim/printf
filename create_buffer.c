@@ -24,7 +24,9 @@ void create_buffer(const char *format, char *buf, va_list ap)
 			if (format[i] == '\0')
 				return;
 		}
-		if (check(format[++i]) == 1)
+		if (format[++i] == '%')
+			buf[j++] = '%';
+		else if (check(format[i]) == 1)
 			copy_str(format[i], s, va_arg(ap, char*));
 		else if (check(format[i]) == 2)
 			copy_int(format[i], format[i + 1], va_arg(ap, int), &i, s, buf, ap);
