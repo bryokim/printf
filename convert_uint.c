@@ -1,21 +1,40 @@
 #include "main.h"
 #include <stdio.h>
 /**
-*copy_uint - copies an unsigned integer.
+*convert_uint - copies an unsigned integer.
 *@n: integer to copy.
 *@s: pointer to stirng.
+*@base: base to convert the int
+*
 *Return: None.
 */
-void copy_uint(unsigned int n, char *s)
+void convert_uint(unsigned int n, char *s, int base)
 {
 	unsigned int digit;
 	char *str = s;
 
 	while (n)
 	{
-		digit = n % 10;
+		digit = n % base;
 		*str++ = '0' + digit;
-		n /= 10;
+		n /= base;
 	}
 	_strrev(s);
+}
+
+
+/**
+ * copy_uint - convert unsigned int to string and copy into s
+ * @c: format specifier
+ * @n: integer to convert to string and copy
+ * @s: string to strore convertes int
+ *
+ * Return: void
+*/
+void copy_uint(char c, unsigned int n, char *s)
+{
+	if (c == 'b')
+		convert_uint(n, s, 2);
+	else
+		convert_uint(n, s, 10);
 }

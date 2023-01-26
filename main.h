@@ -11,7 +11,8 @@ void create_buffer(const char *format, char *buf, va_list ap);
 int convert_int(char c, char d, int n, char *s);
 void print_int_base10(int n, char *s, int base);
 void copy_int(char c, char d, int n, int *i, char *s, char *buf, va_list ap);
-void copy_uint(unsigned int n, char *s);
+void convert_uint(unsigned int n, char *s, int base);
+void copy_uint(char c, unsigned int n, char *s);
 
 void custom_str(char *s, char *str);
 void copy_str(char c, char *s, char *str);

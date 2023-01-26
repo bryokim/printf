@@ -13,11 +13,11 @@ int check(char c)
 		case 's': case 'S':
 			n = 1;
 			break;
-		case 'd': case 'i': case 'b': case 'o': case 'x': case 'X':
+		case 'd': case 'i': case 'o': case 'x': case 'X':
 		case 'c': case 'h':
 			n = 2;
 			break;
-		case 'u':
+		case 'u': case 'b':
 			n = 3;
 			break;
 		case 'l':
