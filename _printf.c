@@ -11,11 +11,13 @@ int _printf(const char *format, ...)
 {
 	va_list ap;
 	char *buf;
-	int len;
+	int len, i;
 
-	buf = calloc(1048,  sizeof(char));
+	buf = malloc(1024 * sizeof(char));
 	if (!buf)
 		return (-1);
+	for (i = 0; i < 1024; i++)
+		buf[i] = '\0';
 
 	va_start(ap, format);
 

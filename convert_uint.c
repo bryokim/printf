@@ -34,7 +34,21 @@ void convert_uint(unsigned int n, char *s, int base)
 void copy_uint(char c, unsigned int n, char *s)
 {
 	if (c == 'b')
+	{
 		convert_uint(n, s, 2);
-	else
+	}
+	else if (c == 'u')
+	{
 		convert_uint(n, s, 10);
+	}
+	else if (c == 'o')
+	{
+		print_uint_base(n, s, 8);
+	}
+	else
+	{
+		print_uint_base(n, s, 16);
+		if (c == 'X')
+			capital_hex(s);
+	}
 }

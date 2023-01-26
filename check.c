@@ -10,18 +10,20 @@ int check(char c)
 
 	switch (c)
 	{
-		case 's': case 'S':
+		case 's': case 'S': case 'r':
 			n = 1;
 			break;
-		case 'd': case 'i': case 'o': case 'x': case 'X':
-		case 'c': case 'h':
+		case 'd': case 'i': case 'c': case 'h':
 			n = 2;
 			break;
-		case 'u': case 'b':
+		case 'u': case 'b': case 'o': case 'x': case 'X':
 			n = 3;
 			break;
 		case 'l':
 			n = 4;
+			break;
+		case 'R':
+			n = 5;
 			break;
 		default:
 			n = -1;

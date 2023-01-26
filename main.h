@@ -23,10 +23,14 @@ int _strlen(const char *s);
 void _strcat(char *dest, char *src);
 void _append(char *str, char *s, int *j);
 
-void print_to_base(int n, char *s, int base);
+void print_int_base(int n, char *s, int base);
+void print_uint_base(unsigned int n, char *s, int base);
 void capital_hex(char *s);
 int find_base(char c);
 
 void find_short(int n, char *s, int base, void (*f)(int, char *, int));
+
+void rot13(char *str, char *s);
+void print_rev(char *s, char *str);
 
 #endif
