@@ -73,6 +73,34 @@ void print_uint_base(unsigned int n, char *s, int base)
 }
 
 /**
+ * print_long_base - prints an unsigned integer to given base
+ * @n: unsigned long integer to convert to given base
+ * @s: string to store converted integer
+ * @base: Integer showing base to convert n to
+ *
+ * Return: void
+*/
+void print_long_base(unsigned long int n, char *s, int base)
+{
+	char *str = s;
+	unsigned long int digit;
+
+	if (n == 0)
+	{
+		_strcpy(str, "0");
+		return;
+	}
+	while (n)
+	{
+		digit = n % base;
+		*str++ = (digit > 9) ? ('a' + digit - 10) : (digit + '0');
+		n /= base;
+	}
+	*str = '\0';
+	_strrev(s);
+}
+
+/**
  * capital_hex - Capitalizes letters in a hexadecimal number
  * @s: String containing the hexadecimal number
  *

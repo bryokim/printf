@@ -9,7 +9,14 @@ void rot13(char *str, char *s)
 {
 	int i;
 
-	for (i = 0; s[i] != '\0'; i++)
+	i = 0;
+	if (s == NULL)
+	{
+		str[i] = '\0';
+		return;
+	}
+
+	for ( ; s[i] != '\0'; i++)
 	{
 		while ((s[i] >= 'a' && s[i] <= 'm') || (s[i] >= 'A' && s[i] <= 'M'))
 		{

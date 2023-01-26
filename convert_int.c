@@ -1,5 +1,35 @@
 #include "main.h"
 #include <stdio.h>
+
+
+/**
+ * copy_int - converts int n to string and copies it to string s
+ * @c: format specifier
+ * @d: next character after format specifier. Needed when handling specifier h
+ * @n: integer to convert and copy
+ * @i: pointer to index of format string
+ * @s: string to copy integer to
+ * @buf: buffer containing output to be printed.
+ * @ap: va_list containing variadic arguments.
+ *
+ * Description: string buf and va_list ap are required so as to safely exit
+ * when an error occurs by freeing buf and va_end ap.
+ *
+ * Return: void
+*/
+void copy_int(char c, char d, int n, int *i, char *s, char *buf, va_list ap)
+{
+	if (!convert_int(c, d, n, s))
+	{
+		va_end(ap);
+		free(s);
+		free(buf);
+		exit(1);
+	}
+	if (c == 'h')
+		(*i)++;
+}
+
 /**
 *print_int_base10 - print number of base 10.
 *@n: number to print to base 10.

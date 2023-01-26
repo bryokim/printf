@@ -5,7 +5,7 @@
 *@src: source string
 *Return: None.
 */
-void  _strcpy(char *dest, char *src)
+void  _strcpy(char *dest, const char *src)
 {
 	while (*src)
 		*dest++ = *src++;
