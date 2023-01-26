@@ -65,7 +65,7 @@ int convert_int(char c, char d, int n, char *s)
 			if (base == 10)
 				find_short(n, s, base, print_int_base10);
 			else
-				find_short(n, s, base, print_to_base);
+				find_short(n, s, base, print_int_base);
 			if (d == 'X')
 				capital_hex(s);
 		}
@@ -73,12 +73,6 @@ int convert_int(char c, char d, int n, char *s)
 		{
 			return (0);
 		}
-	}
-	else
-	{
-		print_to_base(n, s, base);
-		if (c == 'X')
-			capital_hex(s);
 	}
 	return (1);
 }

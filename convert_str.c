@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * print_str - prints string str according to given format specifier
+ * copy_str - prints string str according to given format specifier
  * @c: format specifier
  * @s: string to store the string to be printed
  * @str: buffer holding string to be printed
@@ -15,8 +15,10 @@ void copy_str(char c, char *s, char *str)
 {
 	if (c == 's')
 		_strcpy(s, str);
-	else
+	else if (c == 'S')
 		custom_str(s, str);
+	else
+		print_rev(s, str);
 }
 
 /**
@@ -46,7 +48,7 @@ void custom_str(char *s, char *str)
 			_strcpy(s + j, "\\x");
 			j += 2;
 
-			print_to_base((int)*str, hex, 16);
+			print_uint_base((unsigned int)*str, hex, 16);
 			capital_hex(hex);
 
 			if (_strlen(hex) < 2)
