@@ -19,11 +19,14 @@ int check(char c)
 		case 'u': case 'b': case 'o': case 'x': case 'X':
 			n = 3;
 			break;
-		case 'l':
+		case 'l': case 'p':
 			n = 4;
 			break;
 		case 'R':
 			n = 5;
+			break;
+		case '#': case '+': case '-': case '0':
+			n = 6;
 			break;
 		default:
 			n = -1;
