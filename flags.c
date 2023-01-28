@@ -1,13 +1,12 @@
 #include "main.h"
-#include <stdlib.h>
 #include <ctype.h>
 
 /**
- * initialize - initializes a flag_t structure elements to zero
+ * initialize_flag - initializes a flag_t structure elements to zero
  *
  * Return: pointer to flags
 */
-flag_t *initialize(void)
+flag_t *initialize_flag(void)
 {
 	flag_t *flags = malloc(sizeof(flag_t));
 
@@ -34,6 +33,8 @@ flag_t *initialize(void)
 */
 void check_flag(int *i, const char *format, flag_t *flags)
 {
+	static int d;
+
 	if (*(format + (*i)) == '#')
 	{
 		increment(&flags->pound, i);
@@ -54,19 +55,21 @@ void check_flag(int *i, const char *format, flag_t *flags)
 		increment(&flags->minus, i);
 		check_flag(i, format, flags);
 	}
-	else if (*(format + (*i)) == '0')
+	else if (*(format + (*i)) == '0' && !isdigit(*(format + (*(i) - 1))))
 	{
 		increment(&flags->zero, i);
 		check_flag(i, format, flags);
 	}
 	else if (isdigit(*(format + (*i))))
 	{
-		flags->width = *(format + (*i)) - '0';
+		d = d * 10 + (*(format + (*i)) - '0');
+		flags->width = d;
 		(*i)++;
 		check_flag(i, format, flags);
 	}
 	else
 	{
+		d = 0;
 		return;
 	}
 }
@@ -85,52 +88,54 @@ void increment(int *n, int *i)
 }
 
 /**
- * apply_flags - adds the side required output to the formatted string
+ * apply_flags - formats string as required by the flags.
  * @flags: pointer to a flag_t structure
  * @base: base of the current format
- * @s: string to store the formatted string
- * @str: string containing text to be formatted
+ * @dest: string to store the formatted string
+ * @src: string containing text to be formatted
  *
  * Return: void
 */
-void apply_flags(flag_t *flags, int base, char *s, char *str)
+void apply_flags(char *dest, char *src, flag_t *flags, int base)
 {
-	int sign, i;
-	char s1[20] = {0};
+	int sign;
+	char *s;
 
-	if (flags->minus && flags->zero)
-		return;
-	i = sign = 0;
-	sign = check_pound(flags->pound, flags->space, base, s, str);
-	if (flags->width > _strlen(str))
+	s = initialize_s(1024);
+	if (!s)
+		free_mem(s, dest, src, flags);
+
+	if ((flags->minus && flags->zero) || flags == NULL)
+		free_mem(s, dest, src, flags);
+
+	sign = 0;
+	sign = check_pound(dest, src, flags->pound, flags->space, base);
+	(sign == 1) ? (_strcpy(s, dest)) : (_strcpy(s, src));
+
+	if (flags->width > _strlen(src))
 	{
-		if (flags->minus && !flags->zero)
-		{
-			add_space(&flags->width, flags->space, base, &i, str, s);
-			prefix_spaces(&flags->width, s, s1);
-		}
-		else if (flags->zero && !flags->minus)
-		{
-			add_space(&flags->width, flags->space, base, &i, str, s);
-			prefix_zero(&flags->width, s, s1);
-			_strcpy(s, s1);
-		}
-		else if (flags->space && *str != '-' && base == 10)
-		{
-			s1[i] = ' ';
-			_strcat(s1, s);
-			_strcpy(s, s1);
-		}
+		if (flags->minus)
+			postfix_space(dest, s, flags, base);
+		else if (flags->zero)
+			prefix_zero(dest, s, flags, base);
 		else
-		{
-			prefix_spaces(&flags->width, s, s1);
-			_strcpy(s, s1);
-		}
+			prefix_spaces(dest, s, flags, base);
 	}
-	if (!sign)
+	else if (flags->plus)
 	{
-		_strcpy(s, str);
+		add_plus(dest, s, flags, base);
+		_strcat(dest, s);
 	}
+	else if (flags->space)
+	{
+		add_space(dest, s, flags, base);
+		_strcat(dest, s);
+	}
+
+	if (!sign && _strlen(dest) == 0)
+		_strcpy(dest, src);
+
+	free(s);
 }
 
 /**
@@ -138,12 +143,12 @@ void apply_flags(flag_t *flags, int base, char *s, char *str)
  * @pound: flags->pound
  * @space: flags->space
  * @base: base of the format
- * @s: string to store formatted output
- * @str: string containing output to be formatted
+ * @dest: string to store formatted output
+ * @src: string containing output to be formatted
  *
  * Return: void
 */
-int check_pound(int pound, int space, int base, char *s, char *str)
+int check_pound(char *dest, char *src, int pound, int space, int base)
 {
 	int sign;
 
@@ -152,23 +157,19 @@ int check_pound(int pound, int space, int base, char *s, char *str)
 	{
 		if (base == 16)
 		{
-			_strcpy(s, "0x");
-			_strcat(s + 2, str);
+			_strcpy(dest, "0x");
+			_strcat(dest + 2, src);
 		}
 		else if (base == 8)
 		{
-			_strcpy(s, "0");
-			_strcat(s + 1, str);
+			_strcpy(dest, "0");
+			_strcat(dest + 1, src);
 		}
 		sign = 1;
 	}
 	else if (pound && space)
 	{
 		exit(1);
-	}
-	else
-	{
-		_strcpy(s, str);
 	}
 
 	return (sign);

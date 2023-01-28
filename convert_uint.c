@@ -3,52 +3,64 @@
 /**
 *convert_uint - copies an unsigned integer.
 *@n: integer to copy.
-*@s: pointer to stirng.
 *@base: base to convert the int
+*@s: string to store the unsigned int
+*@c: character showing format specifier
+*@flags: pointer to a flag_t struct.
 *
-*Return: None.
+*Return: pointer to a string containing the unsigned int.
 */
-void convert_uint(unsigned int n, char *s, int base)
+char *convert_uint(unsigned int n, int base, char *s, char c, flag_t *flags)
 {
 	unsigned int digit;
-	char *str = s;
+	char *str = s, *str1;
+
+	str1 = initialize_s(100);
+	if (!str1)
+		return (NULL);
+
+	if (n == 0)
+		_strcpy(str, "0");
 
 	while (n)
 	{
 		digit = n % base;
-		*str++ = '0' + digit;
+		*str++ = (digit > 9) ? ('a' + digit - 10) : (digit + '0');
 		n /= base;
 	}
+
 	_strrev(s);
+
+	if (c == 'X')
+		capital_hex(s);
+
+	apply_flags(str1, s, flags, base);
+	free(s);
+	return (str1);
 }
 
 
 /**
- * copy_uint - convert unsigned int to string and copy into s
+ * print_uint - convert unsigned int to string and copy into s
  * @c: format specifier
  * @n: integer to convert to string and copy
- * @s: string to strore convertes int
+ * @flags: pointer to a flag_t struct
  *
- * Return: void
+ * Return: number of bytes written.
 */
-void copy_uint(char c, unsigned int n, char *s)
+int print_uint(char c, unsigned int n, flag_t *flags)
 {
-	if (c == 'b')
-	{
-		convert_uint(n, s, 2);
-	}
-	else if (c == 'u')
-	{
-		convert_uint(n, s, 10);
-	}
-	else if (c == 'o')
-	{
-		print_uint_base(n, s, 8);
-	}
-	else
-	{
-		print_uint_base(n, s, 16);
-		if (c == 'X')
-			capital_hex(s);
-	}
+	int base, len;
+	char *s;
+
+	s = initialize_s(13);
+	if (!s)
+		return (0);
+
+	base = find_base(c);
+	s = convert_uint(n, base, s, c, flags);
+
+	len = write(1, s, _strlen(s));
+	free(s);
+	return (len);
 }

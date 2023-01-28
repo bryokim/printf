@@ -3,7 +3,7 @@
 /**
  * print_int_base - prints an integer to given base
  * @n: integer to convert to given base
- * @s: string to store converted integer
+ * @s: string to store the integer
  * @base: Integer showing base to convert n to
  *
  * Return: void
@@ -44,33 +44,7 @@ void print_int_base(int n, char *s, int base)
 	_strrev(s);
 }
 
-/**
- * print_uint_base - prints an unsigned integer to given base
- * @n: unsigned integer to convert to given base
- * @s: string to store converted integer
- * @base: Integer showing base to convert n to
- *
- * Return: void
-*/
-void print_uint_base(unsigned int n, char *s, int base)
-{
-	char *str = s;
-	unsigned int digit;
 
-	if (n == 0)
-	{
-		_strcpy(str, "0");
-		return;
-	}
-	while (n)
-	{
-		digit = n % base;
-		*str++ = (digit > 9) ? ('a' + digit - 10) : (digit + '0');
-		n /= base;
-	}
-	*str = '\0';
-	_strrev(s);
-}
 
 /**
  * print_long_base - prints an unsigned integer to given base
@@ -141,6 +115,9 @@ int find_base(char c)
 		break;
 	case 'x': case 'X':
 		base = 16;
+		break;
+	case 'u':
+		base = 10;
 		break;
 	default:
 		base = 0;

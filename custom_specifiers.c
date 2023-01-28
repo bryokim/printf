@@ -1,19 +1,24 @@
 #include "main.h"
+
 /**
 *rot13 - encodes a string using rot13.
-*@str: main string.
 *@s: string to encode.
 *Return: none.
 */
-void rot13(char *str, char *s)
+int rot13(char *s)
 {
-	int i;
+	int i, len;
+	char *str;
+
+	str = initialize_s(_strlen(s) + 1);
+	if (!str)
+		return (0);
 
 	i = 0;
 	if (s == NULL)
 	{
 		str[i] = '\0';
-		return;
+		return (0);
 	}
 
 	for ( ; s[i] != '\0'; i++)
@@ -27,16 +32,10 @@ void rot13(char *str, char *s)
 		if ((s[i] >= 'n' && s[i] <= 'z') || (s[i] >= 'N' && s[i] <= 'Z'))
 			str[i] = s[i] - 13;
 	}
+
+	len = write(1, str, _strlen(str));
+	free(str);
+
+	return (len);
 }
 
-/**
-*print_rev - gives reverse of a string.
-*@s: string to reverse.
-*@str: main string.
-*Return: none.
-*/
-void print_rev(char *s, char *str)
-{
-	_strcpy(s, str);
-	_strrev(s);
-}

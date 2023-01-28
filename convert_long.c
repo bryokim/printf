@@ -1,32 +1,46 @@
 #include "main.h"
-#include <stdio.h>
+
+
 /**
- * copy_long - copies a long int.
+ * print_long - copies a long int.
  * @c: holds the format specifier.
  * @n: holds the unsigned long integer.
- * @s: pointer to temporary string.
- * Return: none.
+ *
+ * Return: number of bytes written.
 */
-void copy_long(char c, unsigned long int n, char *s)
+int print_long(char c, unsigned long int n)
 {
+	char *s;
+	int len;
+
 	if (c == 'p')
-		print_pointer(n, s);
+		s = print_pointer(n);
+	len = write(1, s, _strlen(s));
+	free(s);
+	return (len);
 }
 /**
  * print_pointer - prints the pointer.
  * @n: holds an unsigned int.
- * @s: temporary string.
- * Return: none.
+ *
+ * Return: pointer to a string containing address.
 */
-void print_pointer(unsigned long int n, char *s)
+char *print_pointer(unsigned long int n)
 {
-	char str[20] = {0};
-	flag_t *flags = initialize();
+	char *dest, *src;
+	flag_t *flags = initialize_flag();
+
+	src = initialize_s(20);
+	dest = initialize_s(100);
+	if (!dest || !src)
+		return (NULL);
 
 	flags->pound = 1;
 
-	print_long_base(n, s, 16);
-	apply_flags(flags, 16, str, s);
-	_strcpy(s, str);
+	print_long_base(n, src, 16);
+	apply_flags(dest, src, flags, 16);
+
+	free(src);
 	free(flags);
+	return (dest);
 }

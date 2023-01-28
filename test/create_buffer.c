@@ -1,35 +1,14 @@
-#include <unistd.h>
 #include "main.h"
 
 /**
- * _printf - Prints formatted output to stdout
- * @format: Buffer containing the string to be printed
- *
- * Return: Number of bytes written
-*/
-int _printf(const char *format, ...)
-{
-	va_list ap;
-	int len;
-
-	va_start(ap, format);
-
-	len = print_buffers(format, ap);
-
-	va_end(ap);
-
-	return (len);
-}
-
-/**
- * print_buffers - calls functions that print their respective types.
+ * print_buffers - creates buffer to be printed
  * @format: string to be printed
  * @ap: va_list containing arguments to replace format specifiers
  *
  * Description: calls functions that print buffers created from
  * the arguments read
  *
- * Return: number of bytes written
+ * Return: void
 */
 int print_buffers(const char *format, va_list ap)
 {
@@ -48,7 +27,6 @@ int print_buffers(const char *format, va_list ap)
 
 		flags = initialize_flag();
 		check_flag(&i, format, flags);
-
 		if (format[i] == '%')
 			len += _putchar('%');
 		else if (check(format[i]) == 1)
@@ -63,7 +41,6 @@ int print_buffers(const char *format, va_list ap)
 			len += rot13(va_arg(ap, char *));
 		else
 			exit(1);
-
 		free(flags);
 	}
 	return (len);

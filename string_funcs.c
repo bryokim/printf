@@ -1,4 +1,7 @@
 #include "main.h"
+#include <stdio.h>
+
+
 /**
 *_strcpy - copy a given string to a destination string.
 *@dest: pointer to destination string.
